@@ -1,63 +1,12 @@
-#include "main.h"
-#define SIZE_BUFFER 150
+#include <stdio.h>
+#include <unistd.h>
 /**
- * main - code that passes the Betty checks
- *
- * Return: success
+ *main - A program to write to the user
+ *Return: an integer 1 always
  */
+
 int main(void)
 {
-	char buffer[SIZE_BUFFER], *tmp, *p, *arg_list[20];
-	int comp, increment;
-	size_t boucle;
-	pid_t process;
-
-	while (1)
-	{
-		printf("#prompt$ ");
-		fgets(buffer, SIZE_BUFFER, stdin);
-		buffer[strlen(buffer) - 1] = '\0';
-		if (strcmp("exit", buffer) == 0)
-		{
-			exit(0);
-		}
-		comp = 0;
-		for (boucle = 0; boucle < strlen(buffer); ++boucle)
-		{
-			if (buffer[boucle] == ' ')
-				++comp;
-		}
-		comp = comp + 2;
-		p = strdup(buffer);
-		tmp = strtok(p, " ");
-		increment = 0;
-		while (tmp != NULL)
-		{
-			arg_list[increment] = strdup(tmp);
-			increment++;
-			tmp = strtok(NULL, " ");
-		}
-		arg_list[increment] = NULL;
-		process = fork();
-		if (process == 0)
-		{
-			int retour = execvp(arg_list[0], arg_list);
-
-			if (retour ==  -1)
-				printf("%s\n", strerror(errno));
-			exit(0);
-		}
-		else
-		{
-			wait(&process);
-		}
-		increment = 0;
-		while (arg_list[increment] != NULL)
-		{
-			free(arg_list[increment]);
-			increment++;
-		}
-		free(p);
-	}
-	return (0);
+	write(2, "This is our first Shell project", 32);
+	return (1);
 }
